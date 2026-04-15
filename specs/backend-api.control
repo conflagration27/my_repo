@@ -1,0 +1,8 @@
+Package: backend-api
+Version: 1.0
+Section: custom
+Priority: optional
+Architecture: amd64
+Depends: 
+Maintainer: Murashchenkov Stanislav
+Description: Backend API for caching service

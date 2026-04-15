@@ -1,0 +1,12 @@
+[Unit]
+Description=Cache Proxy API Service
+After=network.target
+
+[Service]
+Type=simple
+User=root
+ExecStart=/usr/bin/python3 /usr/bin/cache-api.py
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
