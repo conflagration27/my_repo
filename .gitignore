@@ -1,0 +1,7 @@
+*.deb
+*.rpm
+*.tar.gz
+/etc/
+*.log
+__pycache__/
+*.pyc
