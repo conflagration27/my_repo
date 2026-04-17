@@ -52,7 +52,7 @@ apply_proxy_rules() {
     # Loopback
     iptables -A INPUT -i lo -j ACCEPT
 
-    # ESTABLISHED connections
+    # Установленные соединения
     iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
 
     # SSH
