@@ -12,12 +12,14 @@ apply_backend_rules() {
     iptables -X
     iptables -P INPUT DROP
     iptables -P FORWARD DROP
-    iptables -P OUTPUT ACCEPT
+    iptables -P OUTPUT DROP
 
     # Loopback
+    iptables -A OUTPUT -o lo -j ACCEPT 
     iptables -A INPUT -i lo -j ACCEPT
 
-    # ESTABLISHED connections
+    # Установленные соединения
+    iptables -A OUTPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
     iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
 
     # SSH
@@ -27,13 +29,13 @@ apply_backend_rules() {
     iptables -A INPUT -p tcp -s 192.168.200.11 --dport 8080 -j ACCEPT
 
     # PostgreSQL: только локально
+    iptables -A OUTPUT -p tcp -d 127.0.0.1 --dport 5432 -j ACCEPT
     iptables -A INPUT -p tcp -s 127.0.0.1 --dport 5432 -j ACCEPT
-    iptables -A INPUT -p tcp -s 192.168.200.10 --dport 5432 -j ACCEPT
 
     # ICMP (ping)
     iptables -A INPUT -p icmp -j ACCEPT
 
-    # Логирование (опционально)
+    # Логирование 
     iptables -A INPUT -j LOG --log-prefix "IPT_DROP: " --log-level 4
 }
 
